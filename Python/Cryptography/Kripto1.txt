@@ -1,0 +1,73 @@
+Lietuvių kalbos abėcėlė
+____________________________________________
+
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 
+A Ą B C Č D E Ę Ė F G  H  I  Į  Y  J  K
+
+17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 
+L  M  N  O  P  R  S  Š  T  U  Ų  Ū  V  Z  ž
+___________________________________________
+
+
+ 17 užduotis 
+1.Iššifuokite  afininį  Cezario šifrą:
+
+EYFČB FERČR EŪEŠE GREŪE ŠEGEČ 
+RYFAĘ ŲĮEĘO ŽHGUŠ GČBOG EĘFĮĖ 
+ŪĖNŽR EŠPZN OEĘBN GVŠGĖ ČVĖLG 
+BOČLG VGĖIČ BVENG ĮZŲCN VBOEL 
+PEŪBF EOĄGŠ HPEGO HĮĖNN REGMG 
+ČBŲEI ĖLČBŲ GŲĖGĘ ĖFGRG VEFNČ 
+HLGVR GŠVEI EFANG 
+ jei teksto pradžia tokia: AŠT
+ 
+ 'AŠTUOTAKUKABARAIKABARAIAU'
+ 'KŠTYNJDANGŲŽIŪRIUOGIANTDE'
+ 'BESŲKARVĖSGANOSIPRIEUPELI'
+ 'OGULIPIEMUOPASIDĖJĘSPOGAL'
+ 'VABOTAGĄIRŽVAIGŽDESSKAIČI'
+ 'UOJAMELUOJIJEINETIKIPATSU'
+ 'ŽLIPKIRPAMATYSI'
+ 
+ 
+2. Iššifuokite  afininį  Cezario šifrą:
+
+ŲLSHL ŲNĘŽH LGCŲC ČLZDŽ RPSRŪ 
+ŽLBLS GHFŽH LZŽČŲ HČIHT DŲPVE 
+SZŽČŲ HČRHP CČŽFI HLPDČ ĖŽČĖD 
+BČLĖŲ LFLZS GHŽŲV BŽPHĖ ŲSČDF 
+DBIŽD ĖDČŽG ŽHLRH TŽZŽČ HPBVĖ 
+ŲŽGSE PŽDHĖ ĄDGAŽ PRŽDZ S     
+
+ jei teksto pirma raidė: K
+ 
+ KUOAUKŠČIAULĖKĖSUVEIDRODŽ 15 -389
+ IUTUOLABIAUVISKASJAMEKRYP
+ OVISKASDARĖSIBJAURESNISNE
+ TSUNKUBUVOLAIKYTIRANKOSEB
+ ETJIENESILIAUDAMIVISARTYN
+ KILOPRIEANGELŲIRDIEVO
+
+3. Iššifuokite  afininį  Cezario šifrą:
+
+ĘVUZĖ UFŪZĄ IRĄZĘ KUZĘZ UZLŪI 
+ĘZGIŪ ZLMĘŠ ĄIŪKM JRĘLI YĄRJZ 
+ŪAĘZB IUŲGN GIZVR ŽŪAMŲ ZIZBV 
+ZBGRT AZDZJ RŲŠĘK ZDZJR ŲŠĘZI 
+ĄUIĄU ŠĖZUŠ BŠGŪD ZN
+
+Decrypted with k1=19, k2=18: 
+STAIGAVEIDRODISBAISIAIPER
+SIKREIPĖSUDREBĖJOSPRŪDOJI
+EMSIŠRANKŲKRITOŽEMĖNIRIŠT
+IŠKOĮMILIJONUSBILIJONUSIR
+DARDAUGIAUŠUKELIŲ    
+ 			
+4. Iššifruokite Hillo šifrą:
+
+UVČBG TZJYO ROŽĮŠ INTYA MRŠČL 
+ĘĄSTC ĄPUNT ĘNTĘG JSĘDŠ ĖĘĖŠI 
+ČUDŲZ JYĄĖY BĄŪMY VOG   
+raktas=[18, 9, 29, 27]
+Ka = [3/25, -1/25, -29/225, 2/25] - atvirkstine
+PAMATĖSARGYBINIAISUBĖGOKADAPIPULSIŠVISŲPUSIŲAŠPLIAUKŠTSA

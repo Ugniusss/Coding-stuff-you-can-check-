@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <title>Kodavimas</title>
+
+  <style>
+    body {
+      background: #2b2b2b;
+      color: #eee;
+      font-family: Arial;
+      padding: 20px;
+    }
+
+    textarea,
+    input,
+    button {
+      background: #3a3a3a;
+      color: white;
+      border: 1px solid #777;
+    }
+
+    textarea {
+      width: 100%;
+      height: 110px;
+    }
+
+    .section {
+      border: 2px solid red;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    pre {
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= PARAMETRAI ================= -->
+  <div class="section">
+    <h2>Parametrai</h2>
+
+    <div class="row">
+      <input id="n" value="9" placeholder="n">
+      <input id="k" value="3" placeholder="k">
+      <input id="pe" value="0.10" placeholder="pe">
+    </div>
+  </div>
+
+  <!-- ================= G MATRICA ================= -->
+  <div class="section">
+    <h3>Automatinė G</h3>
+    <textarea id="autoG" readonly></textarea>
+    <button onclick="genG()">Generuoti G</button>
+
+    <h3>Redaguojama G</h3>
+    <textarea id="customG"></textarea>
+  </div>
+
+  <!-- ================= 1 SCENARIJUS ================= -->
+  <div class="section">
+    <h2>1. Vektorius</h2>
+
+    <div class="row">
+      <div class="col">
+        <div>Informacinis vektorius</div>
+        <input id="vecInput" value="111">
+
+        <button onclick="Encode_A()">Užkoduoti su AutoG</button>
+        <button onclick="Encode_C()">Užkoduoti su CustomG</button>
+
+
+        <div style="margin-top: 10px;">Uzkoduotas vektorius</div>
+        <input id="vecEncoded" readonly>
+
+        <div style="margin-top: 10px;">Per kanala siustas </div>
+        <input id="vecReceived">
+
+        <div style="margin-top: 10px; color: red;">
+          Klaidos pozicijose: <span id="vecErrors">–</span>
+        </div>
+
+        <div style="margin-top: 10px;">Dekoduotas vektorius</div>
+        <input id="vecDecoded" readonly>
+
+        <div style="margin-top: 10px;">
+          <button onclick="decodeVector(false)">Dekoduoti su auto G</button>
+          <button onclick="decodeVector(true)">Dekoduoti su mano G</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 2 SCENARIJUS ================= -->
+  <div class="section">
+    <h2>2. Tekstas</h2>
+
+    <div>Įveskite tekstą</div>
+    <textarea id="textInput">____________________________</textarea>
+
+    <div style="margin: 10px 0;">
+      <button onclick="runText(false)">Dekoduoti su auto G</button>
+      <button onclick="runText(true)">Dekoduoti su mano G</button>
+    </div>
+
+    <div>Rezultatas be kodavimo</div>
+    <textarea id="textNoCode" readonly></textarea>
+
+    <div style="margin-top: 10px;">Rezultatas su kodavimu</div>
+    <textarea id="textWithCode" readonly></textarea>
+  </div>
+
+  <!-- ================= 3 SCENARIJUS ================= -->
+  <div class="section">
+    <h2>3. BMP</h2>
+
+    <input type="file" id="bmp" accept=".bmp">
+
+    <div style="margin: 10px 0;">
+      <button onclick="runBMP(false)">Dekoduoti su auto G</button>
+      <button onclick="runBMP(true)">Dekoduoti su mano G</button>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <img id="bmpO">
+        <div style="text-align: center;">Originalas</div>
+      </div>
+
+      <div class="col">
+        <img id="bmpN">
+        <div style="text-align: center;">Be kodavimo</div>
+      </div>
+
+      <div class="col">
+        <img id="bmpW">
+        <div style="text-align: center;">Su kodavimu</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="net.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+'''
+
+ 30 assignment 
+1. Given the elliptic curve G = EllipticCurve(GF(3001),[-7,2]) and the point P[21 : 2819] of prime order p=509.
+
+The private key of Menezes-Vanstone cryptosystem is r=185.
+Decrypt the cipher 
+
+[[[59, 30], 267, 338], [[1764, 932], 167, 229], [[1627, 2621], 289, 149], [[721, 539], 203, 428], [[1259, 1765], 17, 475]]
+'''
+G = EllipticCurve(GF(3001),[-7,2])
+P=G([21 , 2819])
+p=P.order()
+#print(f"p: {p}")
+r=185
+K_pr=r
+M=[[[59, 30], 267, 338], [[1764, 932], 167, 229], [[1627, 2621], 289, 149], [[721, 539], 203, 428], [[1259, 1765], 17, 475]]
+K_v=K_pr*P
+k=321
+M0=M[0]
+#C0=G([59, 30])
+C0=G(M0[0])
+C1=M0[1]
+C2=M0[2]
+Q=K_pr*C0
+[x,y]=[int(Q[0]),int(Q[1])]
+Md=[C1/x%p,C2/y%p]
+chr(Md[0])+chr(Md[1])
+tring=""
+i=0
+for _ in M:
+    M0=M[i]
+    C0=G(M0[0])
+    C1=M0[1]
+    C2=M0[2]
+    Q=K_pr*C0
+    [x,y]=[int(Q[0]),int(Q[1])]
+    Md=[C1/x%p,C2/y%p]
+    tring+=chr(Md[0])+chr(Md[1])
+    i+=1
+print(f"Text: {tring}")
+# 2. Sign the message m=100 using El Gamal signature with the elliptic curve and the private key given.
+
+m=100
+r=185
+k = 100
+Kpr=r
+Kpb=r*P
+def f(t):
+    return int(t[0])
+N=P.order()
+R=k*P
+s=int(m-Kpr*f(R))/k%N
+Sig=[R, s]
+print(f"Signature: {Sig}")
+V1=f(R) * Kpb + s*R
+V2=m*P
+V1==V2

@@ -1,0 +1,82 @@
+'''
+9 užduotis 
+1. Rabin kriptosistemos privatusis raktas [p,q]=  [11447545997288281555215581351, 11447545997288281555215581399].
+Iššifruokite  šifrą 
+160945565125855997087512488421283122104001. Tekstas keičiamas skaičiumi kaip RSA užduotyje.
+
+2. Privatusis Blumo-Goldwasserio  kriptosistemos raktas [p,q]=  [34807, 34819],h=8
+Iššifruokite šifrą  
+[203, 180, 207, 15, 62, 139, 5, 77, 144, 204, 122, 221, 133, 234, 54, 30, 1204298929]
+
+Raidės keičiamos ASCII kodais. 
+'''
+A='abcdefghijklmnopqrstuvwxyz'
+def i_skaiciu(text):
+    t=''
+    for r in text:
+        if r in A:
+            ind=A.index(r)+1
+            if ind<10: t=t+'0'+str(ind)
+            else: t=t+str(ind)
+    return int(t,10)  
+
+def i_teksta(M):
+    n=M
+    text=''
+    while n>0:
+        ind=n%100
+        ind=ind-1
+        if (ind>=0) & (ind<len(A)):
+            text+=A[ind]
+            n=(n-ind+1)//100
+        else:
+            text+='?'
+            n=(n-ind+1)//100            
+    return text[::-1]
+
+#1) Rabino kriptosistema
+[p,q]= [11447545997288281555215581351, 11447545997288281555215581399]
+n=p*q
+c=160945565125855997087512488421283122104001
+c1=power_mod(c, (p+1)//4, p)
+c2=power_mod(c, (q+1)/4, q)
+d1=1/q%p
+d2=1/p%q
+m1=(c1*d1*q+c2*d2*p)%n
+m2=(-c1*d1*q+c2*d2*p)%n
+m3=(c1*d1*q-c2*d2*p)%n
+m4=(-c1*d1*q-c2*d2*p)%n
+m=[m1, m2, m3, m4]
+i=0
+for _ in m:
+    T=i_teksta(m[i])
+    print(T)
+    i+=1
+#darbo?vieta
+#2) 
+[p,q] =  [34807, 34819]
+h=8
+n=p*q
+c=[203, 180, 207, 15, 62, 139, 5, 77, 144, 204, 122, 221, 133, 234, 54, 30, 1204298929]
+t=len(c)-1
+xt_1=c[-1]
+d=power_mod((p+1)//4, t+1, p-1)
+e=power_mod((q+1)//4, t+1, q-1)
+u=power_mod(xt_1, d, p)
+v=power_mod(xt_1, e, q)
+
+a=1/q%p
+b=1/p%q
+x0=(u*a*q + v*b*p)%n
+ch=""
+ch+=chr((power_mod(x0, 2, n)%256)^^c[0])
+i=1
+r=2
+ri=2
+for _ in range (1, t):
+    newr=r**ri
+    ch+=chr((power_mod(x0, newr, n)%256)^^c[i])
+    i+=1
+    ri+=1
+print(ch)
+#rupesciai baigti

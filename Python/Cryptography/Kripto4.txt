@@ -1,0 +1,48 @@
+abc='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+# Atvirkštinio keitinio radimas
+
+def atv(lmb):
+    l=len(lmb)
+    atv=[0]*l
+    for i in range(0,l):
+        atv[lmb[i]]=i
+    return atv
+
+def decipher(t, lmbs, key):
+    at_lmbs = []
+    for l in lmbs:
+        at_lmbs.append(atv(l))
+    l1, l2 = key
+    m1, m2 = 0, 0
+    c = ""
+    for a in t:
+        if a in abc:
+            a = abc[(at_lmbs[1][(abc.index(a)+l2+m2)%len(abc)]-l2-m2)%len(abc)]
+            a = abc[(at_lmbs[0][(abc.index(a)+l1+m1)%len(abc)]-l1-m1)%len(abc)]
+            m1 = (m1+1)%len(abc)
+            if m1 == 0:
+                m2 = (m2+1)%len(abc)
+            c += a
+    return c
+decipher(u"""
+DPQIO BVEWD GKVWV TLDMH IERXM 
+SHLWU COQMP JJACL EXLOH UBMCW 
+GPJJI WJJFK DFJFS QHXNL EOJAJ 
+TFZGW TRTPV XEIUA RNEYR GFMQU 
+AZNKN GCOAN IFNQJ NPTAE VPVRT 
+NTGMV ASFWB DISJE EDROQ UIAOF 
+UZIWS SEWME TBFSI KINKS NUZOX 
+CJKLM UUHSI NDPEQ GWVXH YXQOG 
+JQTTU FTGRO FFNOB JJJSJ NFGQT 
+ECMPX LBWQT EUGWO NBSVN SFFWS 
+TCKZK YWXBB CDCSY QRXXV THVUW 
+URTKX UCBXW OWZGK LRQCR AYIAL 
+TYAAN MPEYB SVWPW JSIZM UVNXV 
+MICWK   
+""", [
+    [14, 2, 7, 20, 18, 9, 19, 25, 23, 1, 13, 17, 22, 5, 3, 0, 24, 8, 21, 10, 11, 12, 15, 4, 6, 16],
+    [5, 3, 2, 0, 17, 10, 8, 24, 20, 11, 1, 12, 9, 22, 16, 6, 25, 4, 18, 21, 7, 13, 15, 23, 19, 14],
+], [15, 12])
+
+1) SKLIAUTUOTOJEKRAUTUVELEJESEDIPIRKLYSIRSKAICIUOJASIDABRINIUSANTSTALODELNEVISSVERDAMASZIBANCIUSPINIGUSTACIAUPOSTALUKIUTOGILTINEIRTUOMETUKAIPIRKLYSVISASPASINERESISAVUJUTURTUREGINIATSILOSIAIRIMAGLOSTINETISBARZDAGILTINEISAPACIOSSTAIGATAIPTRENKIADELNUPERSTALOKRASTAKADKAULIUKAINEBEISSILAIKOSUKIBEISLAKSTOISALISPAZYRAIRSUSIMAISOSUSIDABRU

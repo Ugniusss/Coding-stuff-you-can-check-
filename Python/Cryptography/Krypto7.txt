@@ -1,0 +1,240 @@
+'''
+1. AES-V parametrai: p=317, [a,b]=[13, 15], T=[1, 11, 31, 4]. Raktas K=[226, 121, 180, 142]
+ 
+Iššifruokite šifrą C=[[62, 135, 102, 14], [225, 311, 108, 61], [62, 135, 102, 14], [265, 136, 17, 194], [81, 261, 73, 157], [221, 172, 3, 51], [126, 34, 267, 305], [296, 10, 147, 314], [192, 72, 118, 8], [37, 217, 135, 41], [150, 173, 112, 27], [110, 156, 301, 177], [213, 98, 111, 302], [22, 262, 190, 68], [186, 197, 38, 311], [310, 38, 66, 243], [88, 123, 26, 298], [194, 190, 91, 166], [297, 72, 263, 79], [250, 162, 175, 32], [270, 119, 237, 203], [258, 311, 76, 20], [187, 39, 282, 315], [242, 227, 204, 141], [268, 223, 232, 284], [155, 190, 279, 116], [118, 52, 74, 288], [289, 264, 158, 250], [221, 33, 92, 196], [268, 223, 232, 284], [155, 190, 279, 116], [118, 52, 74, 288], [289, 264, 158, 250], [91, 147, 275, 118]]
+
+'''
+p=317
+a,b=13, 15
+T=[1, 11, 31, 4]
+Ta=[190, 270, 271, 206]
+K=[226, 121, 180, 142]
+C=[[62, 135, 102, 14], [225, 311, 108, 61], [62, 135, 102, 14], [265, 136, 17, 194], [81, 261, 73, 157], [221, 172, 3, 51], [126, 34, 267, 305], [296, 10, 147, 314], [192, 72, 118, 8], [37, 217, 135, 41], [150, 173, 112, 27], [110, 156, 301, 177], [213, 98, 111, 302], [22, 262, 190, 68], [186, 197, 38, 311], [310, 38, 66, 243], [88, 123, 26, 298], [194, 190, 91, 166], [297, 72, 263, 79], [250, 162, 175, 32], [270, 119, 237, 203], [258, 311, 76, 20], [187, 39, 282, 315], [242, 227, 204, 141], [268, 223, 232, 284], [155, 190, 279, 116], [118, 52, 74, 288], [289, 264, 158, 250], [221, 33, 92, 196], [268, 223, 232, 284], [155, 190, 279, 116], [118, 52, 74, 288], [289, 264, 158, 250], [91, 147, 275, 118]]
+
+def Key_p(K,a,b):
+    if K[3]==0: k0=b
+    else: k0=(K[0]+(a/K[3]%p+b)%p)%p
+    k1=(k0+K[1])%p
+    k2=(k1+K[2])%p
+    k3=(k2+K[3])%p
+    return [k0,k1,k2,k3]
+
+def Key(K,a,b): # outputs the subkeys for iterations 
+    K1=Key_p(K,a,b)
+    K2=Key_p(K1,a,b)
+    return [K,K1,K2]
+
+#key=Key(K,a,b)
+key=[[226, 121, 180, 142], [221, 25, 205, 30], [247, 272, 160, 190]]
+#cifer
+def sbe(m):
+    if m==0: mi=b
+    else: mi=(a/m+b)%p
+    return mi
+#decifer
+def sb(mi):
+    if mi==b: m=0
+    else: 
+        m=(mi-b)/a%p
+        m=1/m%p
+    return m
+
+def en_1(M):
+    return [sbe(m) for m in M]
+def de_1(M):
+    return [sb(m) for m in M]
+
+def en_2(M):
+    return [M[i] for i in [0, 1, 3, 2]]
+def de_2(M):
+    return [M[i] for i in [0, 1, 3, 2]]
+
+def en_3(M):
+    m11=(T[0]*M[0]+T[1]*M[2])%p
+    m12=(T[0]*M[1]+T[1]*M[3])%p
+    m21=(T[2]*M[0]+T[3]*M[2])%p
+    m22=(T[2]*M[1]+T[3]*M[3])%p
+    return [m11,m12,m21,m22]
+def de_3(M):
+    m11=(Ta[0]*M[0]+Ta[1]*M[2])%p
+    m12=(Ta[0]*M[1]+Ta[1]*M[3])%p
+    m21=(Ta[2]*M[0]+Ta[3]*M[2])%p
+    m22=(Ta[2]*M[1]+Ta[3]*M[3])%p
+    return [m11,m12,m21,m22]
+    
+#T=[1, 11, 31, 4]
+#d=1/(1*4-11*31)%p
+#Ta=[d*4%p, -d*11%p, -d*31%p, d*1%p]
+#Ta
+#de_3(en_3([1,1,1,1]))
+def en_4(M, k):
+    return [(M[i]+k[i])%p for i in range (0,4)]
+def de_4(M, k):
+    return [(M[i]-k[i])%p for i in range (0,4)]
+
+def iter_enc(M,k):
+    C=en_1(M)
+    C=en_2(C)
+    C=en_3(C)
+    return en_4(C,k)
+
+def iter_dec(C,k):
+    M=de_4(C, k)
+    M=de_3(M)
+    M=de_2(M)
+    return de_1(M)
+    
+def aes_e(M, key):
+    C=iter_enc(M, key[0])
+    C=iter_enc(C, key[1])
+    return iter_enc(C, key[2])
+
+def aes_d(C, key):
+    M=iter_dec(C, key[2])
+    M=iter_dec(M, key[1])
+    return iter_dec(M, key[0])
+
+i=0
+ii=0
+char=''
+for any in C:
+    m=aes_d(C[i],key)
+    for any2 in C[i]:
+        char+=chr(m[ii])
+        ii+=1
+    ii=0
+    i +=1
+char
+
+# Ats.: ANEYEFORANEYEMAKESTHEWHOLEWORLDBLINDMAHATMAGANDHILEADEROFTHEINDIANINDEPENDENCEMOVEMENTANENGLISHMANSHOMEISHISCASTLEAMANSHOMEISHISCASTLEAN
+2)
+'''
+2. Blokas  M=[64, 120, 131, 274] buvo užšifruotas du kartus su AES-V su raktais K1=['?', 277, 246, 242], K2=[282, '?', 106, 106]
+
+Suraskite raktą meet-in-the middle ataka, jei šifras yra  [92, 42, 114, 173]
+
+'''
+p=317
+a,b=13, 15
+T=[1, 11, 31, 4]
+Ta=[190, 270, 271, 206]
+K=[226, 121, 180, 142]
+C=[92, 42, 114, 173]
+Block=[64, 120, 131, 274]
+
+def Key_p(K,a,b):
+    if K[3]==0: k0=b
+    else: k0=(K[0]+(a/K[3]%p+b)%p)%p
+    k1=(k0+K[1])%p
+    k2=(k1+K[2])%p
+    k3=(k2+K[3])%p
+    return [k0,k1,k2,k3]
+
+def Key(K,a,b): # outputs the subkeys for iterations 
+    K1=Key_p(K,a,b)
+    K2=Key_p(K1,a,b)
+    return [K,K1,K2]
+
+#key=Key(K,a,b)
+#key=[[226, 121, 180, 142], [221, 25, 205, 30], [247, 272, 160, 190]]
+#cifer
+def sbe(m):
+    if m==0: mi=b
+    else: mi=(a/m+b)%p
+    return mi
+#decifer
+def sb(mi):
+    if mi==b: m=0
+    else: 
+        m=(mi-b)/a%p
+        m=1/m%p
+    return m
+
+def en_1(M):
+    return [sbe(m) for m in M]
+def de_1(M):
+    return [sb(m) for m in M]
+
+def en_2(M):
+    return [M[i] for i in [0, 1, 3, 2]]
+def de_2(M):
+    return [M[i] for i in [0, 1, 3, 2]]
+
+def en_3(M):
+    m11=(T[0]*M[0]+T[1]*M[2])%p
+    m12=(T[0]*M[1]+T[1]*M[3])%p
+    m21=(T[2]*M[0]+T[3]*M[2])%p
+    m22=(T[2]*M[1]+T[3]*M[3])%p
+    return [m11,m12,m21,m22]
+def de_3(M):
+    m11=(Ta[0]*M[0]+Ta[1]*M[2])%p
+    m12=(Ta[0]*M[1]+Ta[1]*M[3])%p
+    m21=(Ta[2]*M[0]+Ta[3]*M[2])%p
+    m22=(Ta[2]*M[1]+Ta[3]*M[3])%p
+    return [m11,m12,m21,m22]
+    
+#T=[1, 11, 31, 4]
+#d=1/(1*4-11*31)%p
+#Ta=[d*4%p, -d*11%p, -d*31%p, d*1%p]
+#Ta
+#de_3(en_3([1,1,1,1]))
+def en_4(M, k):
+    return [(M[i]+k[i])%p for i in range (0,4)]
+def de_4(M, k):
+    return [(M[i]-k[i])%p for i in range (0,4)]
+
+def iter_enc(M,k):
+    C=en_1(M)
+    C=en_2(C)
+    C=en_3(C)
+    return en_4(C,k)
+
+def iter_dec(C,k):
+    M=de_4(C, k)
+    M=de_3(M)
+    M=de_2(M)
+    return de_1(M)
+    
+def aes_e(M, key):
+    C=iter_enc(M, key[0])
+    C=iter_enc(C, key[1])
+    return iter_enc(C, key[2])
+
+def aes_d(C, key):
+    M=iter_dec(C, key[2])
+    M=iter_dec(M, key[1])
+    return iter_dec(M, key[0])
+
+L1=[]
+for k in range (0,p):
+    key=[k, 277, 246, 242]
+    keyn=Key(key, a, b)
+    L1.append([k,aes_e(Block, keyn)])
+L2=[]
+for k in range (0,p):
+    key=[282, k, 106, 106]
+    keyn=Key(key, a, b)
+    L2.append([k,aes_d(C, keyn)])
+    
+# Iterate over pairs in L1 and L2 to find matches
+matches = []
+for pair1 in L1:
+    for pair2 in L2:
+        if pair1[1] == pair2[1]:  # Compare second elements
+            matches.append((pair1, pair2))
+
+# Display matching pairs
+for match in matches:
+    print(f"Match found: {match[0]} and {match[1]}")
+print(L1[123])
+print(L2[202])
+k1=L1[123][0]
+k2=L2[202][0]
+K1=[k1, 277, 246, 242]
+key1=Key(K1, a, b)
+K2=[282, k2, 106, 106]
+key2=Key(K2, a, b)
+
+m=aes_d(C,key2)
+m=aes_d(m,key1)
+m

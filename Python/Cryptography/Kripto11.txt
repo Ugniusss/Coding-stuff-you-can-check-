@@ -1,0 +1,62 @@
+'''
+
+10 užduotis
+
+1. Jūsų RSA raktai [n,e,d]=  [103358995545025928935004138017670200331300243739031907, 41, 37814266662814364244513708642205234557338923937525561].
+Iššifruokite jums skirtą šifrą 
+63326144740166123960884492849835654619469382130828824
+
+2. Algio viešas RSA raktas [n,e]=  [103358995545025928935004138017670200331300243739031907, 77].
+Iššifruokite Algiui skirtą šifrą 
+66996264610252193384215071113050989046042092186748942
+
+3. Antano viešas RSA raktas [n,e]=  [1800927138376531785763511974731548192529993897418304343019, 41].
+Birutės  viešas RSA raktas [n,e]=  [1800927138376531785763511974731548192529993897418304343019, 73].
+Jiems abiems pasiųsta ta pati žinutė. 
+ Šifrai: 
+ 1508490432418896473167430378567471558661594178136773044921
+417233865624933231270891279732241478501883699520393538777
+ 
+Pasinaudokite bendro modulio ataka ir iššifruokite žinutę.
+'''
+
+A='abcdefghijklmnopqrstuvwxyz'
+def i_skaiciu(text):
+    t=''
+    for r in text:
+        if r in A:
+            ind=A.index(r)+1
+            if ind<10: t=t+'0'+str(ind)
+            else: t=t+str(ind)
+    return int(t,10)  
+
+def i_teksta(M):
+    n=M
+    text=''
+    while n>0:
+        ind=n%100
+        ind=ind-1
+        if (ind>=0) & (ind<len(A)):
+            text+=A[ind]
+            n=(n-ind+1)//100
+        else:
+            text+='?'
+            n=(n-ind+1)//100            
+    return text[::-1]     
+    
+M=i_skaiciu('du')
+T=i_teksta(191301072119040118020119)
+
+# 1)
+[n,e,d]=[103358995545025928935004138017670200331300243739031907, 41, 37814266662814364244513708642205234557338923937525561]
+c=63326144740166123960884492849835654619469382130828824
+
+#T='smagusdarbas'
+# 2) 
+T=i_teksta(919110512200122051209012201)
+#T='iskeltaveliava'
+
+# 3)
+T1=i_teksta(919110512200122051209012201)
+T2=i_teksta(919110512200122051209012201)
+#(T1, T2) = ('iskeltaveliava', 'iskeltaveliava')

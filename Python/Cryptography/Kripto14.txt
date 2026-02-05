@@ -1,0 +1,66 @@
+# Sham schem
+'''
+14 savaite
+
+25 užduotis 
+Raskite paslaptį, padalytą pagal Shamiro schemą su slenksčiu t=3
+ p=3138428376749
+ x=[x1,x2,x3]=[2144295889985, 2637427724858, 2226520426368]
+  s=[s1,s2,s3]=[94897600353, 2024951377202, 2913545732906]
+Raskite paslaptį, padalytą pagal Asmutho-Blumo schemą su slenksčiu t=3,
+ ir padalykite ją iš naujo 5 dalyviams pagal Shamiro schemą su slenksčiu t=3.
+ [p,p1,p2,p3]=[18430037, 36860003, 73720013, 147440003]
+ [s1,s2,s3]=[30453158, 30453172, 30453149]
+'''
+#1)
+t=3
+p=3138428376749
+x=[x1,x2,x3]=[2144295889985, 2637427724858, 2226520426368]
+s=[s1,s2,s3]=[94897600353, 2024951377202, 2913545732906]
+
+
+f0 = s[0]*x[1]*x[2]/((x[0]-x[1])*(x[0]-x[2]))%p
+f1 = s[1]*x[0]*x[2]/((x[1]-x[0])*(x[1]-x[2]))%p
+f2 = s[2]*x[0]*x[1]/((x[2]-x[0])*(x[2]-x[1]))%p
+pas=(f0+f1+f2)%p
+print(f"Paslaptis 1: {pas}")
+# Paslaptis 1: 9005960
+#2)
+t=3
+dal=5
+[p,p1,p2,p3]=[18430037, 36860003, 73720013, 147440003]
+[s1,s2,s3]=[30453158, 30453172, 30453149]
+N=p1*p2*p3
+s_1=s1*(N//p1)*(1/(N//p1)%p1)
+s_2=s2*(N//p2)*(1/(N//p2)%p2)
+s_3=s3*(N//p3)*(1/(N//p3)%p3)
+at=(s_1+s_2+s_3)%N
+pas=at%p
+print(f"Paslaptis 2: {pas}")
+# Paslaptis 2: 9215000
+# Paslapties perdarimas 5 asmenims:
+xi=[randint(1,pas-1) for i in range(0,dal)]
+ai=[randint(1,pas-1) for i in range(0,2)]
+a=[0,0,0,0,0]
+a[0]=pas+ai[0]*xi[0]+ai[1]*xi[0]**2
+a[1]=pas+ai[0]*xi[1]+ai[1]*xi[1]**2
+a[2]=pas+ai[0]*xi[2]+ai[1]*xi[2]**2
+a[3]=pas+ai[0]*xi[3]+ai[1]*xi[3]**2
+a[4]=pas+ai[0]*xi[4]+ai[1]*xi[4]**2
+si=[0,0,0,0,0]
+si[0] = a[0] % p
+si[1] = a[1] % p
+si[2] = a[2] % p
+si[3] = a[3] % p
+si[4] = a[4] % p
+
+print(f"X: {xi}")
+print(f"S: {si}")
+
+f0 = si[0]* xi[1]*xi[2] / ((xi[0]-xi[1])*(xi[0]-xi[2]))%p
+f1 = si[1]* xi[0]*xi[2] / ((xi[1]-xi[0])*(xi[1]-xi[2]))%p
+f2 = si[2]* xi[0]*xi[1] / ((xi[2]-xi[0])*(xi[2]-xi[1]))%p
+
+p=(f0+f1+f2)%p #if same to Paslaptis 2 ok
+print(p==pas)
+
