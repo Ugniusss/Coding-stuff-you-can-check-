@@ -1,0 +1,23 @@
+Operating in FAST mode.
+Testing with 1 threads.
+Sorting with 1 threads took: 11787 ms
+Operating in FAST mode.
+Testing with 2 threads.
+Sorting with 2 threads took: 6142 ms
+Speedup with 2 threads: 1.9190817323347444
+Operating in FAST mode.
+Testing with 4 threads.
+Sorting with 4 threads took: 4092 ms
+Speedup with 4 threads: 2.88049853372434
+Operating in FAST mode.
+Testing with 8 threads.
+Sorting with 8 threads took: 3502 ms
+Speedup with 8 threads: 3.3657909765848086
+Operating in FAST mode.
+Testing with 16 threads.
+Sorting with 16 threads took: 1818 ms
+Speedup with 16 threads: 6.483498349834983
+Operating in FAST mode.
+Testing with 32 threads.
+Sorting with 32 threads took: 1663 ms
+Speedup with 32 threads: 7.087793144918821
